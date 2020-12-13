@@ -27,4 +27,9 @@ def find_restaurants(mongo, _id=None):
     query = {}
     if _id:
         query["_id"] = ObjectId(_id)
-    return list(mongo.db.restaurant.find(query))
+        restaurantList = list(mongo.db.restaurant.find(query))
+        if(len(restaurantList) == 0):
+            raise KeyError("Not found restaurant with id: {}".format(_id))
+        else:
+            restaurant = restaurantList[0]
+    return restaurant

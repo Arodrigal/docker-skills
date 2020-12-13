@@ -22,11 +22,10 @@ def restaurants():
 
 @app.route("/api/v1/restaurant/<string:id>")
 def restaurant(id):
-    restaurants = find_restaurants(mongo, id)
-    if(len(restaurants) == 0):
+    try:
+        restaurant = find_restaurants(mongo, id)
+        return jsonify(restaurant)
+    except KeyError as error:
         return ('Not found', 204)
-    elif(len(restaurants) == 1):
-        return jsonify(restaurants[0])
-    return ('Too elements', 500)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=False, port=8080)
