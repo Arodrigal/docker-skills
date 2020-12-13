@@ -1,0 +1,11 @@
+FROM painless/tox
+LABEL maintainer="arodrigal@gmail.com"
+
+COPY docker-entrypoint.sh /root/docker-entrypoint.sh
+RUN chmod +x /root/docker-entrypoint.sh
+
+WORKDIR /tmp/app
+
+EXPOSE 8080
+
+CMD ["/root/docker-entrypoint.sh"]

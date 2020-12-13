@@ -20,7 +20,7 @@ def restaurants():
     return jsonify(restaurants)
 
 
-@app.route("/api/v1/restaurant/<id>")
+@app.route("/api/v1/restaurant/<string:id>")
 def restaurant(id):
     restaurants = find_restaurants(mongo, id)
     return jsonify(restaurants)
