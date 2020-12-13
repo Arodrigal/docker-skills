@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  python:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.app
+      args:
+        USERNAME: ${MONGO_USERNAME}
+        PASSWORD: ${MONGO_PASSWORD}
+        MONGO_HOST: ${MONGO_HOST}
+        MONGO_PORT: ${MONGO_PORT}
+        MONGO_DB_NAME: ${MONGO_DB_NAME}
+    container_name: intel-app
+    env_file: ./.env
+    volumes:
+      - ./:/tmp/app
+    ports:
+      - 8080:8080
+    networks:
+      - intel-network
+    #depends_on:
+    #  - mongo_seed
+
+  mongodb:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.mongo
+      args:
+        APP_ENV: ${ENV}
+    container_name: mongodb
+    env_file: ./.env
+    ports:
+     - "27017:27017"
+    networks:
+      - intel-network
+  
+  mongo_seed:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.mongo_seed
+    container_name: mongo_seed
+    networks:
+      - intel-network
+    depends_on:
+      - mongodb
+
+networks:
+  intel-network:
+    ipam:
+      driver: default

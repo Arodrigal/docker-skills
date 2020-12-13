@@ -1,0 +1,7 @@
+FROM mongo:3.6.21
+LABEL maintainer="arodrigal@gmail.com"
+
+COPY data/restaurant.json /tmp
+CMD mongoimport --host mongodb -d intel-db --file /tmp/restaurant.json
+
+EXPOSE 27017

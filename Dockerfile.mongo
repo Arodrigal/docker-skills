@@ -1,0 +1,9 @@
+FROM mongo:3.6.21
+LABEL maintainer="arodrigal@gmail.com"
+
+COPY init.js /docker-entrypoint-initdb.d/
+
+ARG APP_ENV
+RUN /bin/sh -c 'echo "*** hello $APP_ENV ***"'
+
+EXPOSE 27017
